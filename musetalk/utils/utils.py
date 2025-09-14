@@ -51,7 +51,7 @@ def datagen(
     vae_encode_latents,
     batch_size=8,
     delay_frame=0,
-    device="cuda:0",
+    device='cpu'
 ):
     whisper_batch, latent_batch = [], []
     for i, w in enumerate(whisper_chunks):
