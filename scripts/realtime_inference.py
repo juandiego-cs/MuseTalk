@@ -335,9 +335,7 @@ if __name__ == "__main__":
     parser.add_argument("--parsing_mode", default='jaw', help="Face blending parsing mode")
     parser.add_argument("--left_cheek_width", type=int, default=90, help="Width of left cheek region")
     parser.add_argument("--right_cheek_width", type=int, default=90, help="Width of right cheek region")
-    parser.add_argument("--skip_save_images",
-                       action="store_true",
-                       help="Whether skip saving images for better generation speed calculation",
+    parser.add_argument("--skip_save_images", action="store_true", help="Whether skip saving images for better generation speed calculation",
                        )
 
     args = parser.parse_args()
@@ -363,9 +361,14 @@ if __name__ == "__main__":
     )
     timesteps = torch.tensor([0], device=device)
 
-    pe = pe.half().to(device)
-    vae.vae = vae.vae.half().to(device)
-    unet.model = unet.model.half().to(device)
+    if device.type == "cuda":
+        pe = pe.half().to(device)
+        vae.vae = vae.vae.half().to(device)
+        unet.model = unet.model.half().to(device)
+    else:
+        pe = pe.float().to(device)
+        vae.vae = vae.vae.float().to(device)
+        unet.model = unet.model.float().to(device)
 
     # Initialize audio processor and Whisper model
     audio_processor = AudioProcessor(feature_extractor_path=args.whisper_dir)
