@@ -1,0 +1,7 @@
+
+romeo:
+ preparation: True # your can set it to False if you want to use the existing avator, it will save time
+ video_path: "data/video/romeo.mp4"
+ audio_clips:
+     audio_mp3: "data/audio/romeo.wav"
+ 
